@@ -1,6 +1,6 @@
-# Miu::Rpc
+# Miu::RPC
 
-TODO: Write a gem description
+Miu RPC extension
 
 ## Installation
 
@@ -18,7 +18,22 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+class Handler
+  def add(a, b)
+    a + b
+  end
+end
+
+server = Miu::RPC::Server.new 'inproc://myrpcserver', Handler.new
+client = Miu::RPC::Client.new 'inproc://myrpcserver'
+
+client.call :add, 1, 2 #=> 3
+
+# with future
+f = client.future.call :add, 1, 2
+f.value #=> 3
+```
 
 ## Contributing
 
