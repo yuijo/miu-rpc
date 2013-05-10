@@ -7,14 +7,14 @@ describe Miu::RPC do
         a + b
       end
     end
-    address = 'inproc://rspec'
-    @server = Miu::RPC::Server.new address, c.new
+    address = 'inproc://rspec_server'
+    Miu::RPC::Server.supervise_as :server, address, c.new
     @client = Miu::RPC::Client.new address
   end
 
   after :all do
     @client.close
-    @server.close
+    Celluloid::Actor[:server].close
   end
 
   it { expect(@client.call :add, 1, 2).to eq 3 }

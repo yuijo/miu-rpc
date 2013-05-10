@@ -25,9 +25,9 @@ class Handler
   end
 end
 
-server = Miu::RPC::Server.new 'inproc://myrpcserver', Handler.new
-client = Miu::RPC::Client.new 'inproc://myrpcserver'
+Miu::RPC::Server.supervise 'inproc://myrpcserver', Handler.new
 
+client = Miu::RPC::Client.new 'inproc://myrpcserver'
 client.call :add, 1, 2 #=> 3
 
 # with future
